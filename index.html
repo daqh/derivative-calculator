@@ -1,38 +1,103 @@
 <html>
 
-    <head>
-        <script src="jquery.js"></script>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./semantic-ui/semantic.min.css">
-        <script src="./semantic-ui/semantic.min.js"></script>
-        <script src="math.js" type="text/javascript"></script>
-    </head>
+<head>
+    <script src="jquery.js"></script>
+    <script src="plot.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./semantic-ui/semantic.min.css">
+    <link rel="stylesheet" href="style.css">
+    <script src="./semantic-ui/semantic.min.js"></script>
+    <script src="math.js" type="text/javascript"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+</head>
 
-    <body>
-        <div class="ui segment" id="derivative-box">
-            <form action="" class="ui form">
-                <label for="expressison">Espressione</label>
-                <div class="ui fluid input">
-                    <input autocomplete="new" id="expression" name="expression" type="text">
+<body style="background-color: lightblue;">
+
+    <div style="padding: 40px;">
+        <h1 class="ui massive inverted header">Calcolatore di derivate online</h1>
+
+        <div class="ui middle aligned grid" style="height: 88vh;">
+
+            <div class="ui stackable row">
+                <div class="ui eight wide column">
+
+                    <div class="ui raised segments">
+
+                        <div class="ui inverted orange segment">
+                            Derivata di una funzione @ 
+                        </div>
+
+                        <div class="ui segment" id="derivative-box">
+                            <form action="" class="ui form">
+                                <label for="expressison">Espressione</label>
+                                <div class="ui fluid massive input">
+                                    <input autocomplete="off" id="expression" name="expression" type="text">
+                                </div>
+                                <div class="ui hidden divider"></div>
+                                <div class="ui fluid input">
+                                    <button class="ui primary big button">
+                                        Calcola
+                                    </button>
+                                </div>
+                                <div class="ui divider"></div>
+                                <div id="result"></div>
+                            </form>
+                        </div>
+                    </div>
+
                 </div>
-                <div class="ui hidden divider"></div>
-                <div class="ui fluid input">
-                    <button class="ui primary button">
-                        Calcola
-                    </button>
+                <div class="ui eight wide column">
+                    <div class="ui segment">
+                        <div id="plot"></div>
+                    </div>
+                    <div class="ui info message">
+                        <h2 class="ui header">La derivata di una funzione</h2>
+                        <p>Questo strumento è stato realizzato...</p>
+                        <h3>Come lo abbiamo realizzato?</h3>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
-        <script>
-            const queryParams = new URLSearchParams(window.location.search);
-            const expression = queryParams.get('expression');
-            console.log(expression)
-            if(expression) {
-                const result = math.derivative(expression, 'x');
-                $('#derivative-box')
-                    .append('<div class="ui warning message">' + result.toString() + '</div>')
+
+        <div id="pretty"></div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        function draw() {
+            try {
+                const expr = math.compile(expression)
+
+                const xValues = math.range(-10, 10, 0.5).toArray()
+                const yValues = xValues.map(function (x) {
+                    return expr.evaluate({ x: x })
+                })
+
+                const trace1 = {
+                    x: xValues,
+                    y: yValues,
+                    type: 'scatter'
+                }
+
+                const data = [trace1]
+                Plotly.newPlot(
+                    'plot',
+                    data, {
+                    title: expression,
+                    showlegend: false
+                }, {
+                    staticPlot: true
+                });
+
+            } catch (err) {
+                console.error(err)
             }
-        </script>
-    </body>
+
+        }
+
+        draw()
+    </script>
+</body>
 
 </html>
