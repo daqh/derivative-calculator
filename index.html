@@ -29,7 +29,7 @@
                     <div class="ui raised segments">
 
                         <div class="ui inverted orange segment">
-                            Derivata di una funzione @
+                            Calcola la <b>derivata</b> di una funzione
                         </div>
 
                         <div class="ui segment" id="derivative-box">
@@ -68,23 +68,37 @@
     </div>
 
     <script src="script.js"></script>
+
     <script>
         function draw() {
             try {
-                const expr = math.compile(expression)
+                let expr = math.compile(expression)
 
-                const xValues = math.range(-10, 10, 0.5).toArray()
-                const yValues = xValues.map(function (x) {
-                    return expr.evaluate({ x: x })
-                })
+                let xValues = math.range(-10, 10, 0.5).toArray();
 
                 const trace1 = {
                     x: xValues,
-                    y: yValues,
+                    y: xValues.map(function (x) {
+                        return expr.evaluate({ x: x })
+                    }),
                     type: 'scatter'
                 }
 
-                const data = [trace1]
+                expr = derivative;
+                xValues = math.range(-10, 10, 0.5).toArray();
+                const trace2 = {
+                    y: xValues,
+                    x: xValues.map(function (x) {
+                        return expr.evaluate({ x: x })
+                    }),
+                    type: 'scatter'
+                }
+
+                const data = [
+                    trace1,
+                    trace2
+                ];
+
                 Plotly.newPlot(
                     'plot',
                     data, {

@@ -2,6 +2,8 @@
 const expression = new URLSearchParams(window.location.search)
     .get('expression');
 
+var derivative;
+
 if (expression) // Se la variabile contiene un espressione
     try {       // Metto il try perché potrebbe non trattarsi di una espressione valida
 
@@ -12,8 +14,9 @@ if (expression) // Se la variabile contiene un espressione
                 implicit: 'hide'
             });
 
-        const derivativeTex = math          // Calcolo la derivata dell'espressione precedente e prendo il Tex anche di questa
-            .derivative(expression, 'x')
+        derivative = math.derivative(expression, 'x')
+
+        const derivativeTex = derivative
             .toTex({
                 parenthesis: 'keep',
                 implicit: 'hide'
