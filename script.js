@@ -48,3 +48,5 @@ if (expression) // Se la variabile contiene un espressione
             .append("<p>Il formato dell'espressione inserita potrebbe non essere corretto.</p>")
         console.error('Si è verificato un errore')
     }
+else
+window.location = "?expression=x%5E2";

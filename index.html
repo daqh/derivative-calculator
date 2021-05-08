@@ -52,13 +52,25 @@
 
                 </div>
                 <div class="ui eight wide column">
-                    <div class="ui segment">
+                    <div class="ui top attached segment">
+                        <h3 class="ui header">
+                            <i class="ui circle blue icon"></i>
+                            Funzione
+                        </h3>
+                        <h3 class="ui header">
+                            <i class="ui circle orange icon"></i>
+                            Derivata
+                        </h3>
+                    </div>
+                    <div class="ui bottom attached segment">
                         <div id="plot"></div>
                     </div>
                     <div class="ui info message">
                         <h2 class="ui header">La derivata di una funzione</h2>
-                        <p>Questo strumento è stato realizzato...</p>
-                        <h3>Come lo abbiamo realizzato?</h3>
+                        <p>
+                            Indichiamo con f'(c) il limite del rapporto incrementale al tendere dell’incremento h a 0.
+                            Questo limite è il coefficiente angolare della retta tangente ed è uguale alla derivata prima della funzione  nel punto considerato.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -74,7 +86,7 @@
             try {
                 let expr = math.compile(expression)
 
-                let xValues = math.range(-10, 10, 0.5).toArray();
+                let xValues = math.range(-10, 10, 0.1).toArray();
 
                 const trace1 = {
                     x: xValues,
